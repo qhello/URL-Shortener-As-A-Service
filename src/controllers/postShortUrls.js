@@ -11,6 +11,8 @@ export default async ctx => {
   // Input
   const { url } = ctx.request.body
 
+  // TODO: Support "expiresIn" parameter!
+
   if (!url || !isUri(url)) {
     ctx.status = 403
     ctx.body = 'A valid URL is required!'
@@ -43,6 +45,8 @@ export default async ctx => {
     _id: shortId,
     createdAt: new Date(),
   }
+
+  // TODO: Check that shortId isn't already present in DB!
 
   // If user is logged in, assign the url to his id
   if (userId) document = { userId, ...document }
