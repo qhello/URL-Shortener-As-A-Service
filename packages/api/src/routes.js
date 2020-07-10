@@ -1,11 +1,14 @@
 import Router from '@koa/router'
 
 import getId from './controllers/getId'
-import postUrl from './controllers/postUrl'
+
+import getShortUrl from './controllers/getShortUrls'
+import postShortUrl from './controllers/postShortUrls'
 
 const router = new Router()
 
-router.post('/api/shortUrl', postUrl)
+router.get('/api/shortUrls', getShortUrl)
+router.post('/api/shortUrls', postShortUrl)
 
 // "catch all" route, used by shortened urls!
 router.get('/:id', getId)

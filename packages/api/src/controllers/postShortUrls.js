@@ -19,10 +19,10 @@ export default async ctx => {
 
   const db = await getDb()
 
-  const search = userId ? { userId, url } : { url }
+  const search = userId ? { url, userId } : { url, userId: { $exists: false } }
 
   // Let's look if URL has already been shortened
-  const docInDb = await db.collection('urls').findOne(search, { _id: 1 })
+  const docInDb = await db.collection('shortUrls').findOne(search, { _id: 1 })
 
   // Match found - let's return this directly !
   if (docInDb) {
@@ -47,7 +47,7 @@ export default async ctx => {
   // If user is logged in, assign the url to his id
   if (userId) document = { userId, ...document }
 
-  await db.collection('urls').insertOne(document)
+  await db.collection('shortUrls').insertOne(document)
 
   ctx.body = {
     shortUrl: `${config.domain}/${shortId}`,
