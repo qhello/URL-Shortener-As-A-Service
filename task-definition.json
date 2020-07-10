@@ -17,15 +17,32 @@
       "entryPoint": null,
       "portMappings": [
         {
-          "hostPort": 3000,
+          "hostPort": 80,
           "protocol": "tcp",
-          "containerPort": 3000
+          "containerPort": 80
         }
       ],
       "command": null,
       "linuxParameters": null,
       "cpu": 0,
-      "environment": [],
+      "environment": [
+        {
+          "name": "BASE_DOMAIN",
+          "value": "https://usaas.quentinhello.com"
+        },
+        {
+          "name": "HMAC_KEY",
+          "value": "0da79fc3-88a2-42e5-94b3-cde35d03de24"
+        },
+        {
+          "name": "MONGO_CONNECTION_STRING",
+          "value": "mongodb+srv://usaas:BpJzwffInxKgW69l@personnal.frhsq.mongodb.net/usaas?retryWrites=true&w=majority"
+        },
+        {
+          "name": "PORT",
+          "value": "80"
+        }
+      ],
       "resourceRequirements": null,
       "ulimits": null,
       "dnsServers": null,
@@ -37,7 +54,7 @@
       "memoryReservation": null,
       "volumesFrom": [],
       "stopTimeout": null,
-      "image": "822930825144.dkr.ecr.eu-west-3.amazonaws.com/usaas:latest",
+      "image": "822930825144.dkr.ecr.eu-west-3.amazonaws.com/usaas:d0254a14c0eec1fc2e9d115bd8ecce656d390c75",
       "startTimeout": null,
       "firelensConfiguration": null,
       "dependsOn": null,
@@ -61,7 +78,7 @@
   "memory": "512",
   "taskRoleArn": null,
   "compatibilities": ["EC2", "FARGATE"],
-  "taskDefinitionArn": "arn:aws:ecs:eu-west-3:822930825144:task-definition/usaas-api:2",
+  "taskDefinitionArn": "arn:aws:ecs:eu-west-3:822930825144:task-definition/usaas-api:6",
   "family": "usaas-api",
   "requiresAttributes": [
     {
@@ -111,7 +128,7 @@
   "requiresCompatibilities": ["FARGATE"],
   "networkMode": "awsvpc",
   "cpu": "256",
-  "revision": 2,
+  "revision": 6,
   "status": "ACTIVE",
   "inferenceAccelerators": null,
   "proxyConfiguration": null,
