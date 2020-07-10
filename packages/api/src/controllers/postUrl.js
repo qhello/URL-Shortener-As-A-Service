@@ -1,10 +1,13 @@
 import { generate as generateShortId } from 'shortid'
 import { isUri } from 'valid-url'
+import _ from 'lodash'
 
 import config from '../config'
 import getDb from '../db'
 
 export default async ctx => {
+  const userId = _.get(ctx.state, 'user.id')
+
   // Input
   const { url } = ctx.request.body
 
@@ -16,27 +19,35 @@ export default async ctx => {
 
   const db = await getDb()
 
-  // Let's look if URL has already been shortened
-  const docInDb = await db.collection('urls').findOne({ url }, { _id: 1 })
+  const search = userId ? { userId, url } : { url }
 
-  let shortId
+  // Let's look if URL has already been shortened
+  const docInDb = await db.collection('urls').findOne(search, { _id: 1 })
 
   // Match found - let's return this directly !
   if (docInDb) {
-    // eslint-disable-next-line no-underscore-dangle
-    shortId = docInDb._id
-  } else {
-    // URL not found, let's shorten it!
-    shortId = generateShortId()
+    const { _id: shortId } = docInDb
 
-    const document = {
-      url,
-      _id: shortId,
-      createdAt: new Date(),
+    ctx.body = {
+      shortUrl: `${config.domain}/${shortId}`,
     }
 
-    await db.collection('urls').insertOne(document)
+    return
   }
+
+  // URL not found, let's shorten it!
+  const shortId = generateShortId()
+
+  let document = {
+    url,
+    _id: shortId,
+    createdAt: new Date(),
+  }
+
+  // If user is logged in, assign the url to his id
+  if (userId) document = { userId, ...document }
+
+  await db.collection('urls').insertOne(document)
 
   ctx.body = {
     shortUrl: `${config.domain}/${shortId}`,

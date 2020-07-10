@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import { ObjectId } from 'mongodb'
 
 import config from '../config'
 
@@ -22,6 +23,9 @@ export default async (ctx, next) => {
   // Check that JWT is valid
   try {
     payload = jwt.verify(token, config.hmac.key)
+
+    // Convert sub type to ObjectId
+    payload.sub = new ObjectId(payload.sub)
   } catch (error) {
     console.error('[JWT error]', error)
 
