@@ -11,5 +11,8 @@ export default {
     },
   },
   domain: process.env.BASE_DOMAIN || `http://localhost:${port}`,
+  hmac: {
+    key: process.env.HMAC_KEY || 'My-super-secret-key!',
+  },
   port,
 }

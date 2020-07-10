@@ -8,8 +8,6 @@ export default async ctx => {
   // Input
   const { url } = ctx.request.body
 
-  console.log({ url })
-
   if (!url || !isUri(url)) {
     ctx.status = 403
     ctx.body = 'A valid URL is required!'
@@ -20,8 +18,6 @@ export default async ctx => {
 
   // Let's look if URL has already been shortened
   const docInDb = await db.collection('urls').findOne({ url }, { _id: 1 })
-
-  console.log({ docInDb })
 
   let shortId
 
