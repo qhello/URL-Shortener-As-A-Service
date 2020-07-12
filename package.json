@@ -29,7 +29,8 @@
     "eslint-plugin-import": "^2.21.2",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5"
   },
   "husky": {
     "hooks": {
@@ -39,7 +40,7 @@
   "lint-staged": {
     "**/*.js": [
       "npx eslint --cache --fix",
-      "prettier --write"
+      "npx prettier --write"
     ]
   }
 }
