@@ -1,6 +1,6 @@
 FROM node:12.18.0
 
-WORKDIR /opt/api
+WORKDIR /opt/src
 
 COPY . .
 

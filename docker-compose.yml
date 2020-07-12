@@ -9,8 +9,8 @@ services:
 
   api:
     build:
-      context: ./packages/api
+      context: .
     volumes:
-      - "./packages/api:/opt/api"
+      - ".:/opt/src"
     ports:
       - "3000:3000"
