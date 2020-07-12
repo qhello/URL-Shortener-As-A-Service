@@ -5,13 +5,19 @@ import _ from 'lodash'
 import config from '../config'
 import getDb from '../db'
 
+const generateUniqueShortId = db => {
+  const shortId = generateShortId()
+
+  const isInDb = db.collection('shortUrls').findOne({ _id: shortId })
+
+  return isInDb ? generateUniqueShortId(db) : shortId
+}
+
 export default async ctx => {
   const userId = _.get(ctx.state, 'user.id')
 
   // Input
   const { url } = ctx.request.body
-
-  // TODO: Support "expiresIn" parameter!
 
   if (!url || !isUri(url)) {
     ctx.status = 403
@@ -38,15 +44,13 @@ export default async ctx => {
   }
 
   // URL not found, let's shorten it!
-  const shortId = generateShortId()
+  const shortId = generateUniqueShortId(db)
 
   let document = {
-    url,
     _id: shortId,
+    url,
     createdAt: new Date(),
   }
-
-  // TODO: Check that shortId isn't already present in DB!
 
   // If user is logged in, assign the url to his id
   if (userId) document = { userId, ...document }
