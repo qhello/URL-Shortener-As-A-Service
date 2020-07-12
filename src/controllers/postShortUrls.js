@@ -1,14 +1,15 @@
 import { generate as generateShortId } from 'shortid'
 import { isUri } from 'valid-url'
+import moment from 'moment'
 import _ from 'lodash'
 
 import config from '../config'
 import getDb from '../db'
 
-const generateUniqueShortId = db => {
+const generateUniqueShortId = async db => {
   const shortId = generateShortId()
 
-  const isInDb = db.collection('shortUrls').findOne({ _id: shortId })
+  const isInDb = await db.collection('shortUrls').findOne({ _id: shortId })
 
   return isInDb ? generateUniqueShortId(db) : shortId
 }
@@ -17,11 +18,18 @@ export default async ctx => {
   const userId = _.get(ctx.state, 'user.id')
 
   // Input
-  const { url } = ctx.request.body
+  const { url, lifetime } = ctx.request.body
 
   if (!url || !isUri(url)) {
     ctx.status = 403
     ctx.body = 'A valid URL is required!'
+    return
+  }
+
+  // eslint-disable-next-line no-restricted-globals
+  if (lifetime && isNaN(lifetime)) {
+    ctx.status = 403
+    ctx.body = 'Invalid lifetime parameter!'
     return
   }
 
@@ -44,7 +52,7 @@ export default async ctx => {
   }
 
   // URL not found, let's shorten it!
-  const shortId = generateUniqueShortId(db)
+  const shortId = await generateUniqueShortId(db)
 
   let document = {
     _id: shortId,
@@ -54,6 +62,13 @@ export default async ctx => {
 
   // If user is logged in, assign the url to his id
   if (userId) document = { userId, ...document }
+
+  // If lifetime is set, calculate 'expiresAt' field
+  if (lifetime) {
+    const expiresAt = moment().add(lifetime, 'seconds').toDate()
+
+    document = { expiresAt, ...document }
+  }
 
   await db.collection('shortUrls').insertOne(document)
 
