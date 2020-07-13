@@ -14,14 +14,14 @@ Working API (probably won't leave it forever!): https://usaas.quentinhello.com
 
 ### Thursday, July 9th
 
-- Morning: Created git repository, start coding first endpoints.
+- Morning: Created git repository, start coding first endpoints. **2 hours**
 
 ### Friday, July 10th
 
-- Morning: Commit first 2 endpoints.
-- Afternoon: Add JWT middleware, support signed user in post method, add getShortUrls endpoint.
-- Evening: Add CI to deploy to AWS upon release creation, simplify code architecture to switch from "multi" to "single" package logic, as I'm not expecting to be able to do some frontend in the end. Add "todo" memos in code.
+- Morning: Finalize & commit first 2 endpoints. **1 hour**
+- Afternoon: Add JWT middleware, support signed user in post method, add getShortUrls endpoint. **2 hours**
+- Evening: Add CI to deploy to AWS upon release creation, simplify code architecture to switch from "multi" to "single" package logic, as I'm not expecting to be able to do some frontend in the end. Add "todo" memos in code. **2 hours**
 
 ### Monday, July 13th
 
-- Midnight: Support potential conflict on shortId generation, support lifetime parameter.
+- Midnight: Support potential conflict on shortId generation, support lifetime parameter. **1 hour**
