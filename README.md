@@ -25,3 +25,6 @@ Working API (probably won't leave it forever!): https://usaas.quentinhello.com
 ### Monday, July 13th
 
 - Midnight: Support potential conflict on shortId generation, support lifetime parameter. **1 hour**
+
+
+**Total: 8 hours**
